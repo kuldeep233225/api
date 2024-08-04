@@ -3,6 +3,8 @@ package com.example.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,15 +25,17 @@ public class UserController {
 	@Autowired
 	private UserService sarvis;
 	@PostMapping ("/postdata")
-	public UserEntity data(@RequestBody UserEntity use )
+	public ResponseEntity<UserEntity> data(@RequestBody UserEntity use )
 	{
 		UserEntity ataSave = sarvis.dataSave(use);
-		return ataSave;
+		return new ResponseEntity<UserEntity>(ataSave,HttpStatus.CREATED);
 	}
 	@GetMapping("/get/{userId}")
-	public UserEntity getData(@PathVariable Long userId)
+	public ResponseEntity<?> getData(@PathVariable Long userId)
 	{
-		return sarvis.getData(userId);
+		//galat user id put karne par message show hoga
+		UserEntity user = sarvis.getData(userId);
+		return new ResponseEntity<>(user,HttpStatus.OK);
 	}
 	
 	@GetMapping("/getall")
@@ -46,9 +50,11 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/delete/{IdNumber}")
-	public String DeleteData(@PathVariable Long IdNumber)
+	public ResponseEntity<String> deleteData(@PathVariable Long IdNumber)
 	{
-		return sarvis.deleteData(IdNumber);
+		//galat user id put karne par message show hoga
+		String deleteData = sarvis.deleteData(IdNumber);
+		return new ResponseEntity<String> (deleteData,HttpStatus.NO_CONTENT);
 	}
 
 }

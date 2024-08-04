@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.UserEntity;
+import com.example.exception.ResourceNotFoundException;
 import com.example.reposetry.Reposetrayy;
 	//post data
 @Service
@@ -24,7 +25,7 @@ public class UserService
 	//one data show
 	public UserEntity getData(Long userId)
 	{
-		return repo.findById(userId).get();
+		return repo.findById(userId).orElseThrow(() -> new ResourceNotFoundException("UserEntity", "ID", userId));
 	}
 	
 	public List<UserEntity> getAllData() 
@@ -47,7 +48,7 @@ public class UserService
 	
 	public String deleteData(Long IdNumber)
 	{
-		UserEntity byId = repo.findById(IdNumber).get();
+		UserEntity byId = repo.findById(IdNumber).orElseThrow(() -> new ResourceNotFoundException("UserEntity", "Id", IdNumber));
 		repo.delete(byId);
 		return "data delete from database";
 	}
