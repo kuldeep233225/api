@@ -32,7 +32,7 @@ public class UserService
 	{
 		return repo.findAll();
 	}
-	
+	//update data
 	public UserEntity update(UserEntity user, Long IdNumber)
 	{
 		UserEntity byId = repo.findById(IdNumber).get();
